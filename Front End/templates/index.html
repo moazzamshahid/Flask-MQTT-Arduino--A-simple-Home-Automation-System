@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+    <title>Home Automation System</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap");
+      h1 {
+        font-family: "Fira Sans", sans-serif;
+      }
+      span {
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
+          "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+          "Noto Color Emoji";
+      }
+      .yes {
+        animation: heartbeat 5s infinite;
+      }
+      @keyframes heartbeat {
+        0% {
+          transform: scale(0.75);
+        }
+        20% {
+          transform: scale(1);
+        }
+        40% {
+          transform: scale(0.75);
+        }
+        60% {
+          transform: scale(1);
+        }
+        80% {
+          transform: scale(0.75);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Home Automation System</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </nav>
+    <div class="container mt-5">
+      <div class="row">
+        <div
+          class="col-md-6"
+          style="
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+          "
+        >
+          <h1 class="text-center">
+            <img
+              id="myImage"
+              onclick="changeImage()"
+              width="80"
+              height="150"
+            />
+          </h1>
+          <div class="d-flex flex-row justify-content-around mt-5" id="btnContainer">
+          <form action="" method="post" id='myForm'>
+            <button id="Bulb-On" name="Bulb-On"  value="1"class="btn btn-success btn-lg" onclick="turnOn()">
+              Turn On
+            </button>
+          </form>
+            <form action="" method="post" id='myForm2'>
+            <button id="Bulb-Off" name="Bulb-Off"  value="0" class="btn btn-danger btn-lg" onclick="turnOff()">
+              Turn Off
+            </button>
+          </form>
+          </div>
+
+          <figure class="highcharts-figure">
+            <div id="container"></div>
+          </figure>
+        </div>
+        <div
+          class="col-md-6"
+          style="
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+          "
+        >
+          <div class="d-flex flex-row justify-content-between">
+            <h1 class="text-center">Current Temprature</h1>
+            <h1><span>{{temprature}}ºC</span></h1>
+          </div>
+          <div class="d-flex flex-row justify-content-between">
+            <h1 class="text-center">Current Humidity</h1>
+            <h1>
+              <span>{{Humidity}}%</span>
+            </h1>
+          </div>
+          <!-- <div class="d-flex flex-row justify-content-around mt-5"></div> -->
+
+          <figure class="highcharts-figure">
+            <div id="container1"></div>
+          </figure>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div
+          class="col-md-6"
+          style="
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+          "
+        >
+          <div class="d-flex flex-row justify-content-between">
+            <h1 class="text-center">Water level</h1>
+            <h1><span>10%</span></h1>
+          </div>
+          <select class="form-select" aria-label="Default select example">
+            <option selected hidden>Water level threshold</option>
+            <option value="1">10%</option>
+            <option value="2">20%</option>
+            <option value="3">30%</option>
+            <option value="3">40%</option>
+            <option value="3">50%</option>
+            <option value="3">60%</option>
+            <option value="3">70%</option>
+            <option value="3">80%</option>
+            <option value="3">90%</option>
+            <option value="3">100%</option>
+          </select>
+          <div class="d-flex flex-row justify-content-between">
+            <h1 class="text-center">Motor status</h1>
+            <h1>
+              <span>OFF</span>
+            </h1>
+          </div>
+          <!-- <div class="d-flex flex-row justify-content-around mt-5"></div> -->
+
+          <figure class="highcharts-figure">
+            <div id="container2"></div>
+          </figure>
+        </div>
+        <div
+          class="col-md-6"
+          style="
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+          "
+        >
+          <div class="d-flex flex-row justify-content-between">
+            <h1 class="text-center">Soil moisture</h1>
+            <h1><span>{{SM}}%</span></h1>
+          </div>
+          <div class="d-flex flex-row justify-content-between">
+            <h1 class="text-center">Water required</h1>
+            <h1 class="yes" id="condor">
+              <span>{{water_required}}</span>
+            </h1>
+          </div>
+          <!-- <div class="d-flex flex-row justify-content-around mt-5"></div> -->
+
+          <figure class="highcharts-figure">
+            <div id="container3"></div>
+          </figure>
+        </div>
+      </div>
+      <div class="mt-5 row justify-content-center">
+        <div class="col-md-5">
+          <img class="d-block mx-auto" src="{{ url_for('video') }}"  id="livestream" style="background-color: black; border-radius: 14px; display: block; width: 100%; height: 250px;" src="" />
+          <div class="d-flex flex-row justify-content-around my-4">
+            <form action="">
+              <button class="btn btn-primary">←</button>
+            </form>
+            <form action="">
+              <button class="btn btn-primary">→</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <script src="https://code.highcharts.com/highcharts.js"></script>
+      <script src="https://code.highcharts.com/modules/data.js"></script>
+      <script src="https://code.highcharts.com/modules/exporting.js"></script>
+      <script src="https://code.highcharts.com/modules/export-data.js"></script>
+      <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+      <script type="text/javascript">
+        var bg = JSON.parse('{{Bulb_graph}}');
+        var datee = JSON.parse('{{app_date | tojson | safe}}');
+        console.log(datee);
+        Highcharts.chart("container", {
+          chart: {
+            zoomType: "x",
+          },
+          title: {
+            text: "Pi controlled Light Bulb stats overtime",
+          },
+          subtitle: {
+            text:
+              document.ontouchstart === undefined
+                ? "Click and drag in the plot area to zoom in"
+                : "Pinch the chart to zoom in",
+          },
+          xAxis: {
+            type: "datetime",
+            categories: datee,
+            // tickInterval: 60,
+          },
+          yAxis: {
+            title: {
+              text: "",
+            },
+            min: 0,
+            max: 1,
+            pointStart: 0,
+            pointInterval: 0 + 1,
+            width: 1,
+          },
+          legend: {
+            enabled: false,
+          },
+          plotOptions: {
+            area: {
+              fillColor: {
+                linearGradient: {
+                  x1: 0,
+                  y1: 0,
+                  x2: 0,
+                  y2: 1,
+                },
+                stops: [
+                  [0, Highcharts.getOptions().colors[0]],
+                  [
+                    1,
+                    Highcharts.color(Highcharts.getOptions().colors[0])
+                      .setOpacity(0)
+                      .get("rgba"),
+                  ],
+                ],
+              },
+              marker: {
+                radius: 2,
+              },
+              lineWidth: 1,
+              states: {
+                hover: {
+                  lineWidth: 1,
+                },
+              },
+              threshold: null,
+            },
+          },
+
+          series: [
+            {
+              type: "area",
+              name: "Status",
+              data: bg,
+              // pointStart: Date.UTC(2022, 1, 1),
+              // pointInterval: 1 * 1 * 3600 * 1000,
+            },
+          ],
+        });
+        var temp_date = JSON.parse('{{Temp_Date | tojson | safe}}');
+        var temp = JSON.parse('{{Temp_hist}}');
+        console.log(temp_date);
+        Highcharts.chart("container1", {
+          chart: {
+            zoomType: "x",
+          },
+          title: {
+            text: "Temprature Monitor over time in ºC",
+          },
+          subtitle: {
+            text:
+              document.ontouchstart === undefined
+                ? "Click and drag in the plot area to zoom in"
+                : "Pinch the chart to zoom in",
+          },
+          xAxis: {
+            type: "datetime",
+            categories: temp_date,
+            // tickInterval: 60,
+          },
+          yAxis: {
+            title: {
+              text: "",
+            },
+          },
+          legend: {
+            enabled: false,
+          },
+          plotOptions: {
+            area: {
+              fillColor: {
+                linearGradient: {
+                  x1: 0,
+                  y1: 0,
+                  x2: 0,
+                  y2: 1,
+                },
+                stops: [
+                  [0, Highcharts.getOptions().colors[0]],
+                  [
+                    1,
+                    Highcharts.color(Highcharts.getOptions().colors[0])
+                      .setOpacity(0)
+                      .get("rgba"),
+                  ],
+                ],
+              },
+              marker: {
+                radius: 2,
+              },
+              lineWidth: 1,
+              states: {
+                hover: {
+                  lineWidth: 1,
+                },
+              },
+              threshold: null,
+            },
+          },
+
+          series: [
+            {
+              type: "area",
+              name: "On",
+              data: temp,
+              // pointStart: Date.UTC(2022, 1, 1),
+              // pointInterval: 1 * 1 * 3600 * 1000,
+            },
+          ],
+        });
+        Highcharts.chart("container2", {
+          chart: {
+            zoomType: "x",
+          },
+          title: {
+            text: "Motor Pump & Water Level Monitor",
+          },
+          subtitle: {
+            text:
+              document.ontouchstart === undefined
+                ? "Click and drag in the plot area to zoom in"
+                : "Pinch the chart to zoom in",
+          },
+          xAxis: {
+            type: "datetime",
+            // tickInterval: 60,
+          },
+          yAxis: {
+            title: {
+              text: "",
+            },
+          },
+          legend: {
+            enabled: false,
+          },
+          plotOptions: {
+            area: {
+              fillColor: {
+                linearGradient: {
+                  x1: 0,
+                  y1: 0,
+                  x2: 0,
+                  y2: 1,
+                },
+                stops: [
+                  [0, Highcharts.getOptions().colors[0]],
+                  [
+                    1,
+                    Highcharts.color(Highcharts.getOptions().colors[0])
+                      .setOpacity(0)
+                      .get("rgba"),
+                  ],
+                ],
+              },
+              marker: {
+                radius: 2,
+              },
+              lineWidth: 1,
+              states: {
+                hover: {
+                  lineWidth: 1,
+                },
+              },
+              threshold: null,
+            },
+          },
+
+          series: [
+            {
+              type: "area",
+              name: "On",
+              data: [
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+                [0],
+                [1],
+              ],
+              pointStart: Date.UTC(2022, 1, 1),
+              pointInterval: 1 * 1 * 3600 * 1000,
+            },
+          ],
+        });
+        var soil = JSON.parse('{{Soil_hist}}');
+        var soil_date = JSON.parse('{{Soil_Date | tojson | safe}}');
+        console.log(soil_date, "hello world");
+        Highcharts.chart("container3", {
+          chart: {
+            zoomType: "x",
+          },
+          title: {
+            text: "Soil moisture monitor over time in %",
+          },
+          subtitle: {
+            text:
+              document.ontouchstart === undefined
+                ? "Click and drag in the plot area to zoom in"
+                : "Pinch the chart to zoom in",
+          },
+          xAxis: {
+            type: "datetime",
+            categories: soil_date,
+            // tickInterval: 60,
+          },
+          yAxis: {
+            title: {
+              text: "",
+            },
+          },
+          legend: {
+            enabled: false,
+          },
+          plotOptions: {
+            area: {
+              fillColor: {
+                linearGradient: {
+                  x1: 0,
+                  y1: 0,
+                  x2: 0,
+                  y2: 1,
+                },
+                stops: [
+                  [0, Highcharts.getOptions().colors[0]],
+                  [
+                    1,
+                    Highcharts.color(Highcharts.getOptions().colors[0])
+                      .setOpacity(0)
+                      .get("rgba"),
+                  ],
+                ],
+              },
+              marker: {
+                radius: 2,
+              },
+              lineWidth: 1,
+              states: {
+                hover: {
+                  lineWidth: 1,
+                },
+              },
+              threshold: null,
+            },
+          },
+
+          series: [
+            {
+              type: "area",
+              name: "On",
+              data: soil,
+              // pointStart: Date.UTC(2022, 1, 1),
+              // pointInterval: 1 * 1 * 3600 * 1000,
+            },
+          ],
+        });
+      </script>
+      <script>
+        var last_status = '{{Last_status}}';
+        var image = document.getElementById("myImage");
+        console.log(last_status);
+        if (last_status == "OFF") {
+          image.src = "/static/pic_bulboff.gif";
+        }
+        else {
+          image.src = "/static/pic_bulbon.gif";
+        }
+        // function changeImage() {
+        //   var image = document.getElementById("myImage");
+        //   if (image.src.match("/static/pic_bulbon.gif")) {
+        //     image.src = "/static/pic_bulboff.gif";
+        //   } else {
+        //     image.src = "/static/pic_bulbon.gif";
+        //   }
+        // }
+        // function turnOn() {
+          // event.preventDefault();
+        //   var image = document.getElementById("myImage");
+        //   if (last_status == "ON") {
+        //   image.src = "/static/pic_bulbon.gif";
+        // }
+          // if (image1.src.match("/static/pic_bulboff.gif")) {
+          //   image1.src = "/static/pic_bulbon.gif";
+
+          // }
+        // }
+        // function turnOff() {
+          // event.preventDefault();
+        //   var image = document.getElementById("myImage");
+        //   if (last_status == "OFF") {
+        //   image.src = "/static/pic_bulboff.gif";
+        // }
+          // if (image.src.match("/static/pic_bulbon.gif")) {
+          //   image.src = "/static/pic_bulboff.gif";
+          // }
+        // }
+        var waterreq = '{{water_required}}';
+        var element = document.getElementById("condor");
+        if (waterreq == 'Yes') {
+          element.classList.add("text-danger");
+        }
+        else {
+          element.classList.add("text-success");
+        }
+      </script>
+    </div>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+
+
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    -->
+
+
+  </body>
+</html>

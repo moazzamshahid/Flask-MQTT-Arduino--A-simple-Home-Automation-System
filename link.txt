@@ -1,0 +1,28 @@
+Raspberry Pi MQTT Broker 
+https://www.youtube.com/watch?v=nAUUdbUkJEI&t=92s
+What is MQTT:
+https://inductiveautomation.com/resources/article/what-is-mqtt#:~:text=MQTT%20is%20a%20publish%2Fsubscribe,or%20register%2C%20to%20particular%20topics.
+Multiple MQTT topics:
+https://www.baldengineer.com/multiple-mqtt-topics-pubsubclient.html
+Web Interface:
+https://www.aranacorp.com/en/create-a-web-interface-to-control-your-raspberry-pi/#:~:text=In%20order%20to%20access%20the,in%20the%20Raspberry%20Pi%20terminal.
+
+Another Tutorial:
+https://learn.sparkfun.com/tutorials/using-flask-to-send-data-to-a-raspberry-pi/all
+
+Charts on Flask
+https://towardsdatascience.com/flask-and-chart-js-tutorial-i-d33e05fba845
+
+How to pass data variable from a python/flask code to another python code?
+https://stackoverflow.com/questions/	62110427/how-to-pass-data-variable-from-a-python-flask-code-to-another-python-code
+
+How to call some function from the Flask app in Python?:
+https://stackoverflow.com/questions/22782856/how-to-call-some-function-from-the-flask-app-in-python
+
+water Level Sensor:
+https://lastminuteengineers.com/water-level-sensor-arduino-tutorial/
+
+Pi Camera:
+https://randomnerdtutorials.com/raspberry-pi-motion-detector-photo-capture/
+MQTT Paho:
+https://pypi.org/project/paho-mqtt/#id2
